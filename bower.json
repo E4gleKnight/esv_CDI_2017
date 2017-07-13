@@ -1,0 +1,21 @@
+{
+  "name": "esv_payment",
+  "homepage": "https://github.com/E4gleKnight/esv_CDI_2017",
+  "authors": [
+    "email <email@email.fr>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "web/dependancies",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7"
+  }
+}
