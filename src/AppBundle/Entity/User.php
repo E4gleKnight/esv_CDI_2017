@@ -3,6 +3,9 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping\JoinColumn;
+
 
 /**
  * User
@@ -43,18 +46,26 @@ class User
     private $firstName;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="payment_id", type="integer", unique=true)
+     * @var ArrayCollection
+     * @ORM\ManyToOne(targetEntity="Address", inversedBy="users")
+     * @ORM\JoinColumn(name="address_id", referencedColumnName="id")
      */
-    private $paymentId;
+    private $address;
 
     /**
-     * @var int
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="Payment", mappedBy="user")
      *
-     * @ORM\Column(name="address_id", type="integer", unique=true)
      */
-    private $addressId;
+    private $payments;
+
+    /**
+     * User constructor.
+     */
+    public function __construct()
+    {
+        $this->payments =  new ArrayCollection();
+    }
 
 
     /**
@@ -139,52 +150,70 @@ class User
         return $this->firstName;
     }
 
+
     /**
-     * Set paymentId
+     * @return ArrayCollection
+     */
+    public function getPayments()
+    {
+        return $this->payments;
+    }
+
+    /**
+     * @param ArrayCollection $payments
+     * @return User
+     */
+    public function setPayments($payments)
+    {
+        $this->payments = $payments;
+        return $this;
+    }
+
+    /**
+     * Set address
      *
-     * @param integer $paymentId
+     * @param \AppBundle\Entity\Address $address
      *
      * @return User
      */
-    public function setPaymentId($paymentId)
+    public function setAddress(\AppBundle\Entity\Address $address = null)
     {
-        $this->paymentId = $paymentId;
+        $this->address = $address;
 
         return $this;
     }
 
     /**
-     * Get paymentId
+     * Get address
      *
-     * @return int
+     * @return \AppBundle\Entity\Address
      */
-    public function getPaymentId()
+    public function getAddress()
     {
-        return $this->paymentId;
+        return $this->address;
     }
 
     /**
-     * Set addressId
+     * Add payment
      *
-     * @param integer $addressId
+     * @param \AppBundle\Entity\Payment $payment
      *
      * @return User
      */
-    public function setAddressId($addressId)
+    public function addPayment(Payment $payment)
     {
-        $this->addressId = $addressId;
+        $this->payments[] = $payment;
 
         return $this;
     }
 
     /**
-     * Get addressId
+     * Remove payment
      *
-     * @return int
+     * @param \AppBundle\Entity\Payment $payment
      */
-    public function getAddressId()
+    public function removePayment(Payment $payment)
     {
-        return $this->addressId;
+        $this->payments->removeElement($payment);
     }
 }
-

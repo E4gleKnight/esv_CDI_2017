@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\AppBundle;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -43,11 +44,12 @@ class Payment
     private $nature;
 
     /**
-     * @var int
+     * @var User
      *
-     * @ORM\Column(name="user_id", type="integer", unique=true)
+     * @ORM\ManyToOne(targetEntity="User",inversedBy="payments")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
-    private $userId;
+    private $user;
 
 
     /**
@@ -133,27 +135,20 @@ class Payment
     }
 
     /**
-     * Set userId
-     *
-     * @param integer $userId
-     *
-     * @return Payment
+     * @return User
      */
-    public function setUserId($userId)
+    public function getUser()
     {
-        $this->userId = $userId;
-
-        return $this;
+        return $this->user;
     }
 
     /**
-     * Get userId
-     *
-     * @return int
+     * @param User $user
+     * @return Payment
      */
-    public function getUserId()
+    public function setUser($user)
     {
-        return $this->userId;
+        $this->user = $user;
+        return $this;
     }
 }
-
